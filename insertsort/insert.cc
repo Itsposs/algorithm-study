@@ -27,28 +27,90 @@ void test_insert() {
 	std::cout << std::endl;
 }
 
-
-typedef struct Node {
-
+typedef struct LNode {
 	int val;
-	struct Node *next;
-}LNode;
+	struct LNode *next;
+} LNode;
 
-#include <cassert>
+#include <random>  // random
 
-void insert(LNode *head) {
+
+LNode * create(LNode *head, int count) {
 	
-	assert(head -> next);
+	head = new LNode;  // init
+	head -> next = nullptr;
 
-	
+	LNode *r = head;   // pointer of tail 
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(1, 100);
+
+	for (int i = 0; i < count; ++i) {
+		int key = dis(gen);
+		//std::cout << key << " ";
+		LNode *p = new LNode;
+		p -> val = key;
+		p -> next = nullptr;
+		r -> next = p;
+		r = p;
+	}
+	return head;
+}
+
+#include <iostream>
+
+void print(LNode *head) {
+
+	if (!head)
+		return;
+	LNode *p = head -> next;
+	while (p) {
+		std::cout << p -> val << " ";
+		p = p -> next;
+	}
+	std::cout << std::endl;
 }
 
 
-int main(int argc, char *argv[]) {
+void destroy(LNode *head) {
+	if(!head)
+		return;
+	LNode *r;
+	LNode *p = head;
+	while (p) {
+		r = p -> next;
+		free(p);
+		p = r;
+	}
+}
 
+void insert(LNode *head) {
+	if (!head)
+		return;
+	LNode *p = head -> next;
+	LNode *r = p -> next;
+	p -> next = nullptr;
+	p = r;
+	while (p) {
+		r = p -> next;
+		q = head;
+
+
+	}
+}
+
+void test_list() {
+	LNode *p;
+	LNode *r = create(p, 10);
+	print(r);
+	destroy(r);
+}
+
+int main(int argc, char *argv[]) {
 	using namespace std::chrono;
 	auto beg = system_clock::now();
 	
+	test_list();
 	test_insert();
 	
 	auto end = system_clock::now();
