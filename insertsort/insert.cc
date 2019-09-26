@@ -87,8 +87,7 @@ void destroy(LNode *head) {
 LNode *insert(LNode *head) {
 	if (!head)
 		return nullptr;
-	LNode *q = nullptr;
-	LNode *p = head -> next;
+	LNode *p = head -> next, *q;
 	LNode *r = p -> next;
 	p -> next = nullptr;
 	p = r;
@@ -104,10 +103,11 @@ LNode *insert(LNode *head) {
 		 */
 		r = p -> next;
 		q = head;
-		while (q -> next != nullptr && q -> next -> val <= p -> val)
+		while (q -> next != nullptr && q -> next -> val < p -> val)
 			q = q -> next;
 		p -> next = q -> next;
 		q -> next = p;
+		p = r;
 	}
 	return head;
 }
@@ -128,7 +128,6 @@ int main(int argc, char *argv[]) {
 	auto beg = system_clock::now();
 	
 	test_list();
-	//test_insert();
 	
 	auto end = system_clock::now();
 	std::cout << "time: " << duration_cast<milliseconds> (end - beg).count()
