@@ -27,20 +27,22 @@ void test_insert() {
 	std::cout << std::endl;
 }
 
+using ElemType = int;
+
 typedef struct LNode {
-	int val;
+	ElemType data;
 	struct LNode *next;
-} LNode;
+} LNode, *LinkList;
 
 #include <random>  // random
 
 
-LNode * create(LNode *head, int count) {
+void create(LinkList &L, int count) {
 	
-	head = new LNode;  // init
-	head -> next = nullptr;
+	L = new LNode;  // init
+	L -> next = nullptr;
 
-	LNode *r = head;   // pointer of tail 
+	LinkList r = L;   // pointer of tail 
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dis(1, 100);
@@ -48,35 +50,35 @@ LNode * create(LNode *head, int count) {
 	for (int i = 0; i < count; ++i) {
 		int key = dis(gen);
 		//std::cout << key << " ";
-		LNode *p = new LNode;
-		p -> val = key;
+		LinkList p = new LNode;
+		p -> data = key;
 		p -> next = nullptr;
 		r -> next = p;
 		r = p;
 	}
-	return head;
+	//return head;
 }
 
 #include <iostream>
 
-void print(LNode *head) {
+void print(LinkList &L) {
 
-	if (!head)
+	if (!L)
 		return;
-	LNode *p = head -> next;
+	LinkList p = L -> next;
 	while (p) {
-		std::cout << p -> val << " ";
+		std::cout << p -> data << " ";
 		p = p -> next;
 	}
 	std::cout << std::endl;
 }
 
 
-void destroy(LNode *head) {
-	if(!head)
+void destroy(LinkList &L) {
+	if(!L)
 		return;
-	LNode *r;
-	LNode *p = head;
+	LinkList r;
+	LinkList p = L;
 	while (p) {
 		r = p -> next;
 		free(p);
@@ -84,11 +86,11 @@ void destroy(LNode *head) {
 	}
 }
 
-LNode *insert(LNode *head) {
-	if (!head)
+void insert(LinkList &L) {
+	if (!L)
 		return nullptr;
-	LNode *p = head -> next, *q;
-	LNode *r = p -> next;
+	LinkList p = head -> next, q;
+	LinkList r = p -> next;
 	p -> next = nullptr;
 	p = r;
 	/*         x   p  
@@ -102,25 +104,25 @@ LNode *insert(LNode *head) {
 		 *
 		 */
 		r = p -> next;
-		q = head;
-		while (q -> next != nullptr && q -> next -> val < p -> val)
+		q = L;
+		while (q -> next != nullptr && q -> next -> data < p -> data)
 			q = q -> next;
 		p -> next = q -> next;
 		q -> next = p;
 		p = r;
 	}
-	return head;
+	//return head;
 }
 
 void test_list() {
-	LNode *p;
-	LNode *r = create(p, 10);
-	print(r);
+	LinkList p;
+	create(p, 10);
+	print(p);
 	std::cout << "create end." << std::endl;
-	LNode *q = insert(r); // error
+	insert(p); // error
 	std::cout << "insert end." << std::endl;
-	print(q);
-	destroy(r);
+	print(p);
+	destroy(p);
 }
 
 int main(int argc, char *argv[]) {
