@@ -119,7 +119,7 @@ void test_list() {
 	create(p, 10);
 	print(p);
 	std::cout << "create end." << std::endl;
-	insert(p); // error
+	insert(p); // ok
 	std::cout << "insert end." << std::endl;
 	print(p);
 	destroy(p);
