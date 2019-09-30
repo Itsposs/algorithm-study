@@ -31,7 +31,7 @@ void create(LinkList &L, int count) {
 
 }
 void SelectSort(LinkList &L) {
-    if (L && L -> next )
+    if (！（L && L -> next）)
         return;
     LinkList p, q;
     for (p = L -> next; p; p = p -> next) {
